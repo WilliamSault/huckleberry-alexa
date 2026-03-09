@@ -20,6 +20,7 @@ from huckleberry_alexa.handlers.bottle import LogBottleFeedIntentHandler
 from huckleberry_alexa.handlers.status import (
     LastFeedStatusIntentHandler,
     LastNappyStatusIntentHandler,
+    CurrentFeedStatusIntentHandler,
 )
 
 sb = SkillBuilder()
@@ -37,6 +38,7 @@ sb.add_request_handler(LogNappyIntentHandler())
 sb.add_request_handler(LogBottleFeedIntentHandler())
 sb.add_request_handler(LastFeedStatusIntentHandler())
 sb.add_request_handler(LastNappyStatusIntentHandler())
+sb.add_request_handler(CurrentFeedStatusIntentHandler())
 
 sb.add_exception_handler(CatchAllExceptionHandler())
 

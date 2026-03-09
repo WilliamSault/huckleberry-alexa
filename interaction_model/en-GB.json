@@ -166,6 +166,26 @@
           ]
         },
         {
+          "name": "CurrentFeedStatusIntent",
+          "slots": [
+            {
+              "name": "child",
+              "type": "AMAZON.FirstName"
+            }
+          ],
+          "samples": [
+            "how long is the current feed",
+            "how long have I been feeding",
+            "current feed status",
+            "how long has the feed been going",
+            "how long on each side",
+            "how long has she been feeding",
+            "how long has he been feeding",
+            "feed timer",
+            "current feed time for {child}"
+          ]
+        },
+        {
           "name": "LastNappyStatusIntent",
           "slots": [
             {
