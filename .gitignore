@@ -10,4 +10,5 @@ build/
 *.egg-info/
 .env
 deployment.zip
+*DS_store
 *.zip
