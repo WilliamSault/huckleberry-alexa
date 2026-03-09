@@ -104,21 +104,32 @@
               "type": "NappyColor"
             },
             {
+              "name": "nappy_type",
+              "type": "NappyType"
+            },
+            {
               "name": "child",
               "type": "AMAZON.FirstName"
             }
           ],
           "samples": [
             "log a nappy change",
+            "log a {nappy_type} nappy",
+            "log a {nappy_type} nappy change",
+            "log a {nappy_type} diaper",
+            "log a {nappy_type} diaper change",
             "log a {color} nappy",
             "log a {color} nappy change",
             "record a nappy change",
             "record a {color} nappy",
+            "record a {nappy_type} nappy",
             "nappy change",
             "log a diaper change",
             "log a {color} diaper change",
             "log a nappy change for {child}",
-            "log a {color} nappy for {child}"
+            "log a {color} nappy for {child}",
+            "log a {nappy_type} nappy for {child}",
+            "log a {nappy_type} diaper for {child}"
           ]
         },
         {
@@ -221,6 +232,32 @@
               "name": {
                 "value": "right",
                 "synonyms": ["right side", "right breast", "right boob"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "NappyType",
+          "values": [
+            {
+              "id": "pee",
+              "name": {
+                "value": "pee",
+                "synonyms": ["wet", "wee"]
+              }
+            },
+            {
+              "id": "poo",
+              "name": {
+                "value": "poo",
+                "synonyms": ["poop", "dirty", "soiled"]
+              }
+            },
+            {
+              "id": "both",
+              "name": {
+                "value": "both",
+                "synonyms": ["mixed", "pee and poo", "poo and pee"]
               }
             }
           ]

@@ -46,6 +46,15 @@ scripts/build_lambda.sh   # Builds deployment.zip
 - Runtime: Python 3.12, x86_64, 256 MB, 15s timeout
 - If zip exceeds 50 MB (grpcio), upload via S3
 
+## Development Workflow
+
+Use red/green TDD:
+1. **Red** — write a failing test that captures the expected behaviour
+2. **Green** — write the minimum code to make it pass
+3. **Refactor** — clean up while keeping tests green
+
+Never write implementation code without a failing test first.
+
 ## Running Tests
 
 ```bash

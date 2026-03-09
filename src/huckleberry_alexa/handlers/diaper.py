@@ -21,17 +21,31 @@ class LogNappyIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input: HandlerInput) -> Response:
         color = _get_slot_value(handler_input, "color")
+        nappy_type = _get_slot_value(handler_input, "nappy_type")
         child_name = _get_slot_value(handler_input, "child")
+
+        _TYPE_TO_MODE = {
+            "pee": "pee",
+            "wet": "pee",
+            "poo": "poo",
+            "poop": "poo",
+            "dirty": "poo",
+            "both": "both",
+            "mixed": "both",
+        }
+        mode = _TYPE_TO_MODE.get(nappy_type.lower(), "both") if nappy_type else "both"
+        poo_color = color.lower() if color and mode in ("poo", "both") else None
 
         try:
             _, resolved = run_huckleberry_with_child(
-                lambda api, uid: api.log_diaper(uid, mode="both", color=color.lower() if color else None),
+                lambda api, uid: api.log_diaper(uid, mode=mode, color=poo_color),
                 child_name=child_name,
             )
-            if color:
-                speak = f"Logged a {color} nappy change for {resolved}."
+            type_word = nappy_type if nappy_type else "nappy"
+            if poo_color:
+                speak = f"Logged a {poo_color} {type_word} change for {resolved}."
             else:
-                speak = f"Logged a nappy change for {resolved}."
+                speak = f"Logged a {type_word} change for {resolved}."
         except ValueError as e:
             speak = str(e)
 

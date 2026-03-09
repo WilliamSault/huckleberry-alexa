@@ -1,6 +1,7 @@
 """Tests for diaper/nappy handler."""
 
-from unittest.mock import patch
+import asyncio
+from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 
 from huckleberry_alexa.handlers.diaper import LogNappyIntentHandler
@@ -32,6 +33,46 @@ class TestLogNappyIntentHandler:
         assert "nappy" in ssml
         assert "Frederica" in response.output_speech.ssml
         mock_client.assert_called_once()
+
+    def _call_coro_factory(self, mock_client):
+        """Extract and invoke the coro_factory captured by mock_client."""
+        coro_factory = mock_client.call_args[0][0]
+        mock_api = MagicMock()
+        mock_api.log_diaper = AsyncMock()
+        asyncio.run(coro_factory(mock_api, "child-uid"))
+        return mock_api
+
+    def test_log_nappy_no_type_defaults_to_both(self, mock_client):
+        hi = make_intent_input("LogNappyIntent", {})
+        self.handler.handle(hi)
+        mock_api = self._call_coro_factory(mock_client)
+        mock_api.log_diaper.assert_called_once_with("child-uid", mode="both", color=None)
+
+    def test_log_nappy_pee_type(self, mock_client):
+        hi = make_intent_input("LogNappyIntent", {"nappy_type": "pee"})
+        response = self.handler.handle(hi)
+        mock_api = self._call_coro_factory(mock_client)
+        mock_api.log_diaper.assert_called_once_with("child-uid", mode="pee", color=None)
+        assert "pee" in response.output_speech.ssml.lower()
+
+    def test_log_nappy_pee_color_ignored(self, mock_client):
+        hi = make_intent_input("LogNappyIntent", {"nappy_type": "pee", "color": "yellow"})
+        response = self.handler.handle(hi)
+        mock_api = self._call_coro_factory(mock_client)
+        mock_api.log_diaper.assert_called_once_with("child-uid", mode="pee", color=None)
+        assert "yellow" not in response.output_speech.ssml.lower()
+
+    def test_log_nappy_wet_synonym(self, mock_client):
+        hi = make_intent_input("LogNappyIntent", {"nappy_type": "wet"})
+        self.handler.handle(hi)
+        mock_api = self._call_coro_factory(mock_client)
+        mock_api.log_diaper.assert_called_once_with("child-uid", mode="pee", color=None)
+
+    def test_log_nappy_poo_type(self, mock_client):
+        hi = make_intent_input("LogNappyIntent", {"nappy_type": "poo"})
+        self.handler.handle(hi)
+        mock_api = self._call_coro_factory(mock_client)
+        mock_api.log_diaper.assert_called_once_with("child-uid", mode="poo", color=None)
 
     def test_log_nappy_with_color(self, mock_client):
         hi = make_intent_input("LogNappyIntent", {"color": "yellow"})
