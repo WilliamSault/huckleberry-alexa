@@ -1,0 +1,258 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "huckleberry",
+      "intents": [
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "StartNursingIntent",
+          "slots": [
+            {
+              "name": "side",
+              "type": "BreastSide"
+            },
+            {
+              "name": "child",
+              "type": "AMAZON.FirstName"
+            }
+          ],
+          "samples": [
+            "start a feed on my {side} breast",
+            "start a feed on my {side} breast for {child}",
+            "begin {side} nursing",
+            "begin {side} nursing for {child}",
+            "start {side} side",
+            "start nursing on the {side}",
+            "start a {side} breast feed",
+            "nurse on the {side}",
+            "feeding on {side}",
+            "start feeding on the {side} side"
+          ]
+        },
+        {
+          "name": "PauseNursingIntent",
+          "slots": [
+            {
+              "name": "child",
+              "type": "AMAZON.FirstName"
+            }
+          ],
+          "samples": [
+            "pause the feed",
+            "pause nursing",
+            "pause the nursing",
+            "hold the feed",
+            "pause the breast feed",
+            "pause for {child}"
+          ]
+        },
+        {
+          "name": "SwitchBreastIntent",
+          "slots": [
+            {
+              "name": "child",
+              "type": "AMAZON.FirstName"
+            }
+          ],
+          "samples": [
+            "switch breast",
+            "switch sides",
+            "swap breast",
+            "other side",
+            "change side",
+            "switch to the other side",
+            "swap to the other breast",
+            "switch breast for {child}"
+          ]
+        },
+        {
+          "name": "StopNursingIntent",
+          "slots": [
+            {
+              "name": "child",
+              "type": "AMAZON.FirstName"
+            }
+          ],
+          "samples": [
+            "stop the feed",
+            "finish the feed",
+            "end the feed",
+            "save the feed",
+            "stop nursing",
+            "finish nursing",
+            "end nursing",
+            "complete the feed",
+            "stop the feed for {child}"
+          ]
+        },
+        {
+          "name": "LogNappyIntent",
+          "slots": [
+            {
+              "name": "color",
+              "type": "NappyColor"
+            },
+            {
+              "name": "child",
+              "type": "AMAZON.FirstName"
+            }
+          ],
+          "samples": [
+            "log a nappy change",
+            "log a {color} nappy",
+            "log a {color} nappy change",
+            "record a nappy change",
+            "record a {color} nappy",
+            "nappy change",
+            "log a diaper change",
+            "log a {color} diaper change",
+            "log a nappy change for {child}",
+            "log a {color} nappy for {child}"
+          ]
+        },
+        {
+          "name": "LogBottleFeedIntent",
+          "slots": [
+            {
+              "name": "amount",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "child",
+              "type": "AMAZON.FirstName"
+            }
+          ],
+          "samples": [
+            "log a bottle feed",
+            "log a bottle",
+            "record a bottle feed",
+            "record a bottle",
+            "log a {amount} millilitre bottle",
+            "log a {amount} millilitres bottle feed",
+            "log a {amount} m l bottle",
+            "log an {amount} millilitre bottle feed",
+            "log a bottle feed for {child}",
+            "log a {amount} millilitre bottle for {child}"
+          ]
+        },
+        {
+          "name": "LastFeedStatusIntent",
+          "slots": [
+            {
+              "name": "child",
+              "type": "AMAZON.FirstName"
+            }
+          ],
+          "samples": [
+            "how long ago was the last feed",
+            "when was the last feeding",
+            "when did she last eat",
+            "when did he last eat",
+            "when was the last feed",
+            "how long since the last feed",
+            "last feed status",
+            "when was the last feed for {child}"
+          ]
+        },
+        {
+          "name": "LastNappyStatusIntent",
+          "slots": [
+            {
+              "name": "child",
+              "type": "AMAZON.FirstName"
+            }
+          ],
+          "samples": [
+            "how long ago was the last nappy",
+            "when was the last nappy change",
+            "when was the last diaper change",
+            "how long since the last diaper",
+            "how long since the last nappy",
+            "last nappy status",
+            "when was the last nappy",
+            "when was the last nappy change for {child}"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "name": "BreastSide",
+          "values": [
+            {
+              "id": "left",
+              "name": {
+                "value": "left",
+                "synonyms": ["left side", "left breast", "left boob"]
+              }
+            },
+            {
+              "id": "right",
+              "name": {
+                "value": "right",
+                "synonyms": ["right side", "right breast", "right boob"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "NappyColor",
+          "values": [
+            {
+              "id": "yellow",
+              "name": {
+                "value": "yellow",
+                "synonyms": ["golden", "mustard"]
+              }
+            },
+            {
+              "id": "green",
+              "name": {
+                "value": "green",
+                "synonyms": ["dark green", "olive"]
+              }
+            },
+            {
+              "id": "brown",
+              "name": {
+                "value": "brown",
+                "synonyms": ["dark brown", "tan"]
+              }
+            },
+            {
+              "id": "black",
+              "name": {
+                "value": "black",
+                "synonyms": ["dark", "meconium"]
+              }
+            },
+            {
+              "id": "red",
+              "name": {
+                "value": "red",
+                "synonyms": ["bloody", "pink"]
+              }
+            },
+            {
+              "id": "gray",
+              "name": {
+                "value": "gray",
+                "synonyms": ["grey", "chalk white", "white"]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

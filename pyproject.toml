@@ -1,0 +1,37 @@
+[project]
+name = "huckleberry-alexa"
+version = "0.1.0"
+description = "Private Alexa skill for voice-logging baby tracking events to Huckleberry"
+requires-python = ">=3.12"
+dependencies = [
+    "ask-sdk-core>=1.19.0",
+    "huckleberry-api",
+    "aiohttp",
+    "pytz",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "python-dotenv"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+asyncio_mode = "auto"
+markers = [
+    "integration: marks tests requiring a live Huckleberry API connection",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/huckleberry_alexa"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "pytest-asyncio>=0.24",
+    "pytest-cov>=7.0.0",
+    "python-dotenv>=1.2.2",
+]
