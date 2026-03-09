@@ -1,0 +1,63 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v4
+
+      - name: Run tests
+        run: uv run pytest -m "not integration"
+
+      - name: Build Lambda zip
+        run: bash scripts/build_lambda.sh
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy Lambda function
+        run: aws lambda update-function-code --function-name huckleberry-alexa --zip-file fileb://deployment.zip
+
+      - name: Install ASK CLI
+        run: npm install -g ask-cli
+
+      - name: Write ASK CLI credentials
+        run: |
+          mkdir -p ~/.ask
+          cat > ~/.ask/cli_config <<EOF
+          {
+            "profiles": {
+              "default": {
+                "token": {
+                  "access_token": null,
+                  "refresh_token": "${{ secrets.ASK_REFRESH_TOKEN }}",
+                  "token_type": "bearer",
+                  "expires_in": 3600,
+                  "expires_at": "1970-01-01T00:00:00.000Z",
+                  "clientId": "${{ secrets.ASK_CLIENT_ID }}",
+                  "clientSecret": "${{ secrets.ASK_CLIENT_SECRET }}"
+                },
+                "vendor_id": "${{ secrets.ASK_VENDOR_ID }}"
+              }
+            }
+          }
+          EOF
+
+      - name: Deploy Alexa interaction model
+        run: |
+          ask smapi update-interaction-model \
+            --skill-id ${{ secrets.ALEXA_SKILL_ID }} \
+            --stage development \
+            --locale en-GB \
+            --interaction-model file:interaction_model/en-GB.json
