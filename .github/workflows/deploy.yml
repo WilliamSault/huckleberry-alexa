@@ -42,7 +42,7 @@ jobs:
 
       - name: Deploy Alexa interaction model
         run: |
-          ask smapi update-interaction-model \
+          ask smapi set-interaction-model \
             --skill-id ${{ secrets.ALEXA_SKILL_ID }} \
             --stage development \
             --locale en-GB \
