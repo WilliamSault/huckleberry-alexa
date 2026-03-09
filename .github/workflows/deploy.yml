@@ -33,26 +33,12 @@ jobs:
         run: npm install -g ask-cli
 
       - name: Write ASK CLI credentials
+        env:
+          ASK_REFRESH_TOKEN: ${{ secrets.ASK_REFRESH_TOKEN }}
+          ASK_VENDOR_ID: ${{ secrets.ASK_VENDOR_ID }}
         run: |
           mkdir -p ~/.ask
-          cat > ~/.ask/cli_config <<EOF
-          {
-            "profiles": {
-              "default": {
-                "token": {
-                  "access_token": null,
-                  "refresh_token": "${{ secrets.ASK_REFRESH_TOKEN }}",
-                  "token_type": "bearer",
-                  "expires_in": 3600,
-                  "expires_at": "1970-01-01T00:00:00.000Z",
-                  "clientId": "${{ secrets.ASK_CLIENT_ID }}",
-                  "clientSecret": "${{ secrets.ASK_CLIENT_SECRET }}"
-                },
-                "vendor_id": "${{ secrets.ASK_VENDOR_ID }}"
-              }
-            }
-          }
-          EOF
+          printf '%s' "{\"profiles\":{\"default\":{\"token\":{\"refresh_token\":\"${ASK_REFRESH_TOKEN}\",\"token_type\":\"bearer\",\"expires_in\":3600,\"expires_at\":\"1970-01-01T00:00:00.000Z\"},\"vendor_id\":\"${ASK_VENDOR_ID}\"}}}" > ~/.ask/cli_config
 
       - name: Deploy Alexa interaction model
         run: |
